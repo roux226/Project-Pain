@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingRight = true;
 
     private bool canDash = true;
-    private bool isDashing;
+    public bool isDashing;
     private float dashingPower = 26f;
     private float dashingTime = 0.2f;
     private float dashingCooldown = 0.75f;
@@ -184,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
         isWallJumping = false;
     }
 
-    private IEnumerator Dash()
+    public IEnumerator Dash()
     {
         canDash = false;
         isDashing = true;
@@ -201,4 +201,5 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
         canDash = true;
     }
+
 }

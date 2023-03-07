@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MoveAwayFromPlayer : MonoBehaviour
 {
+
+    private PlayerMovement playerMovement;
+
     public Transform playerTransform;
     public float speed = 7f;
     public float fovRadius = 5f;
@@ -14,10 +17,14 @@ public class MoveAwayFromPlayer : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        GameObject player = GameObject.Find("Player");
+        playerMovement = player.GetComponent<PlayerMovement>();
     }
 
     private void Update()
     {
+        if (playerTransform == null) return; // add null check
+        
         Vector2 direction = (playerTransform.position - transform.position).normalized;
 
         // Check if player is within FOV radius
@@ -43,12 +50,21 @@ public class MoveAwayFromPlayer : MonoBehaviour
     }
 
         void OnCollisionEnter2D(Collision2D collision)
+{
+    if (collision.gameObject.CompareTag("Player"))
     {
-        if (collision.gameObject.CompareTag("Player"))
+        PlayerMovement playerMovement = collision.gameObject.GetComponent<PlayerMovement>();
+        if (playerMovement != null && !playerMovement.isDashing)
+        {
+            Destroy(collision.gameObject);
+        }
+
+        else if (playerMovement != null)
         {
             Destroy(gameObject);
         }
     }
+}
 
 
     private void OnDrawGizmosSelected()
