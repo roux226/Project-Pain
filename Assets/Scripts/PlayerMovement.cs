@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private float returnToNormalScale = 2f;
+
     private float horizontal;
     public float speed = 8f;
     private float jumpingPower = 20f;
@@ -190,8 +192,10 @@ public class PlayerMovement : MonoBehaviour
         rb.gravityScale = 0f;
         rb.velocity = new Vector2(transform.localScale.x * dashingPower, 0f);
         tr.emitting = true;
+        transform.localScale = new Vector3(transform.localScale.x, 0.5f * transform.localScale.y, transform.localScale.z);
         yield return new WaitForSeconds(dashingTime);
         tr.emitting = false;
+        transform.localScale = new Vector3(transform.localScale.x, returnToNormalScale * transform.localScale.y, transform.localScale.z);
         rb.gravityScale = originalGravity;
         isDashing = false;
         yield return new WaitForSeconds(dashingCooldown);
