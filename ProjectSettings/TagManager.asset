@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Lava
   layers:
   - Default
   - TransparentFX
@@ -15,8 +16,8 @@ TagManager:
   - Ground
   - groundLayer
   - Wall
-  - 
-  - 
+  - Ceiling
+  - Lava
   - 
   - 
   - 

@@ -1,6 +1,26 @@
 using System.Collections;
 using UnityEngine;
 
+public class LavaCollision : MonoBehaviour
+{
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            DestroyPlayer();
+        }
+    }
+
+    private void DestroyPlayer()
+    {
+        if (gameObject != null)
+        {
+            Destroy(gameObject);
+        }
+    }
+}
+
+
 public class PlayerMovement : MonoBehaviour
 {
     private float returnToNormalScale = 2f;
@@ -36,6 +56,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
+
+    [SerializeField] private LayerMask _lavaLayer;
 
     private void Start()
     {
