@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class EnemyAI : MonoBehaviour
 {
@@ -57,6 +59,7 @@ public class EnemyAI : MonoBehaviour
         if (playerMovement != null && !playerMovement.isDashing)
         {
             Destroy(collision.gameObject);
+            RestartLevel();
         }
 
         else if (playerMovement != null)
@@ -80,4 +83,11 @@ public class EnemyAI : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + fovLine1);
         Gizmos.DrawLine(transform.position, transform.position + fovLine2);
     }
+
+    public void RestartLevel()
+    {
+        Debug.Log("Restarting level...");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 }

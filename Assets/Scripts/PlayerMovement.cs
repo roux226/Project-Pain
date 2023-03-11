@@ -1,25 +1,6 @@
 using System.Collections;
 using UnityEngine;
-
-public class LavaCollision : MonoBehaviour
-{
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            DestroyPlayer();
-        }
-    }
-
-    private void DestroyPlayer()
-    {
-        if (gameObject != null)
-        {
-            Destroy(gameObject);
-        }
-    }
-}
-
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -57,8 +38,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform wallCheck;
     [SerializeField] private LayerMask wallLayer;
 
-    [SerializeField] private LayerMask _lavaLayer;
-
+    private void CheckCollision(Collision2D collision)
+{
+    if (collision.gameObject.layer == LayerMask.NameToLayer("Lava"))
+    {
+        // Il player è entrato in contatto con la lava
+        Destroy(gameObject); // distruggi il player
+        RestartLevel(); // avvia il restart del livello
+    }
+    else if (collision.gameObject.CompareTag("Enemy"))
+    {
+        // Il player è entrato in contatto con un nemico
+        // Aggiungi qui la logica per gestire la collisione con un nemico
+    }
+}
+    
     private void Start()
     {
         coyoteTimeCounter = coyoteTime;
@@ -120,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
             sr.color = Color.red;
         }
     }
-
+    
     private void FixedUpdate()
     {
         if (isDashing)
@@ -199,6 +193,11 @@ public class PlayerMovement : MonoBehaviour
 
             Invoke(nameof(StopWallJumping), wallJumpingDuration);
         }
+    }
+        public void RestartLevel()
+    {
+        Debug.Log("Restarting level...");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void StopWallJumping()
